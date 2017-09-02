@@ -56,6 +56,17 @@ UserSchema.methods.generateAuthToken = function() {
     return user.save().then(() => token);
 };
 
+UserSchema.methods.removeToken = function(token) {
+    // use $pull to remove item from an array which matches certain criteria
+    let user = this;
+
+    return user.update({
+        $pull: {
+            tokens: { token }
+        }
+    })
+}
+
 // Define custom model methods (static methods)
 UserSchema.statics.findByToken = function(token) {
     let User = this;
